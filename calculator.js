@@ -2,13 +2,15 @@
 const buttonsBlock = document.querySelector('.buttons-block');
 const screen = document.querySelector('.screen > span');
 
-for(let num = 1; num < 13; num++) {
-    if (num === 10) {
-        buttonsBlock.innerHTML += `<button class="key">+</button>`
-    } else if (num === 11) {
-        buttonsBlock.innerHTML += `<button class="key">0</button>`
-    } else if (num === 12) {
-        buttonsBlock.innerHTML += `<button class="key">=</button>`
+const invalidNum = [10,11,12,13,14,15];
+const substitute = ['+','0','-','*','/','='];
+
+
+
+for(let num = 1; num < 16; num++) {
+    
+    if (invalidNum.includes(num)) {
+        buttonsBlock.innerHTML += `<button class="key">${substitute[invalidNum.indexOf(num)]}</button>`
     } else{
         buttonsBlock.innerHTML += `<button class="key">${num}</button>`
     }
@@ -19,12 +21,24 @@ buttonsBlock.addEventListener('click', (e) => {
     let value = e.target.textContent;
     if (value !== '=') {
         screen.textContent == '0'? screen.textContent = '' : null;
-        screen.textContent += value
+        screen.textContent += value;
     }
 
     if (value == '=') {
-        const splitted = screen.textContent.split('+');
-        const result = parseInt(splitted[0]) + parseInt(splitted[1]);
+        let result = 0;
+        const splitted = screen.textContent.split('')
+        console.log(splitted);
+        if(splitted.includes('/')) {
+            result = parseInt(splitted[splitted.indexOf('/') - 1]) / parseInt(splitted[splitted.indexOf('/') + 1]);
+        } else if(splitted.includes('*')) {
+            result = parseInt(splitted[splitted.indexOf('*')-1]) * parseInt(splitted[splitted.indexOf('*')+1]);
+        } else if(splitted.includes('+')) {
+            result = parseInt(splitted[splitted.indexOf('+')-1]) + parseInt(splitted[splitted.indexOf('+')+1]);
+        } else {
+            result = parseInt(splitted[splitted.indexOf('-')-1]) - parseInt(splitted[splitted.indexOf('-')+1]);
+        } 
+        
+        
         screen.textContent = result;
     }
 });
