@@ -1,5 +1,5 @@
 {/* <button class="key">1</button> */}
-const buttonsBlock = document.querySelector('.buttons-block');
+const buttonsBlock = document.querySelector('.numbers-block');
 const screen = document.querySelector('.screen > span');
 
 for(let num = 1; num < 13; num++) {
